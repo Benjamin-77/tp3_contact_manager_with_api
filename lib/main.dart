@@ -6,7 +6,6 @@ import 'package:tp3_api/models/user.dart';
 import 'package:tp3_api/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
@@ -98,101 +97,101 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _users.isNotEmpty
           ? ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: _users.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.white),
-                    shadowColor:
-                    MaterialStateProperty.all<Color>(Colors.white24),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailPage(
-                              id: _users[index].getId(),
-                            )));
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        leading: Container(
-                          width: 40,
-                          height: 40,
-                          child: _users[index].getPhoto() == "null"
-                              ? Icon(
-                            Icons.person,
-                            size: 40,
-                            color: Colors.indigo,
-                          )
-                              : ClipOval(
-                            child: Image.file(
-                              File(_users[index].getPhoto()),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          _users[index].getFirstName() +
-                              " " +
-                              _users[index].getLastName(),
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500),
-                        ),
-                        subtitle: Text(_users[index].getPhone()),
+              padding: const EdgeInsets.all(8),
+              itemCount: _users.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        shadowColor:
+                            MaterialStateProperty.all<Color>(Colors.white24),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            );
-          })
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage(
+                                      id: _users[index].getId(),
+                                    )));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            leading: Container(
+                              width: 40,
+                              height: 40,
+                              child: _users[index].getPhoto() == "null"
+                                  ? Icon(
+                                      Icons.person,
+                                      size: 40,
+                                      color: Colors.indigo,
+                                    )
+                                  : ClipOval(
+                                      child: Image.file(
+                                        File(_users[index].getPhoto()),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                            ),
+                            title: Text(
+                              _users[index].getFirstName() +
+                                  " " +
+                                  _users[index].getLastName(),
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Text(_users[index].getPhone()),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
+              })
           : Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Save-Contacts",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              /* CircularProgressIndicator(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Save-Contacts",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    /* CircularProgressIndicator(
                       color: Colors.indigo,
                       semanticsLabel: 'Chargement...',
                     ),*/
-              SizedBox(
-                height: 10,
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Image(image: AssetImage("assets/images/accueil.jpg")),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Vous n'avez aucun contact",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ],
+                ),
               ),
-              Image(image: AssetImage("assets/images/accueil.jpg")),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Vous n'avez aucun contact",
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
@@ -207,12 +206,13 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
+  String titre = "Ajouter un contact";
 
   User user = User();
   Map<String, dynamic> json = {};
 
   File? image;
-  String path = "null";
+  String path = "nulls";
   String profilText = "Sélectionnez une image de profil";
 
   void pickImage() async {
@@ -231,38 +231,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
   var _lastNameController = TextEditingController();
   var _phoneController = TextEditingController();
   var _addresseController = TextEditingController();
-  var _mailController = TextEditingController();
-  var _birthdayController = TextEditingController();
   var _citationController = TextEditingController();
-  String _genderController = "Masculin";
+  var _genderController = TextEditingController();
 
   // Insert a new journal to the database
   Future<void> _addUser() async {
     refresh();
-    user = await SQLHelper.createUser(user);
+    setState(() async{
+      user = await SQLHelper.createUser(user);
+    });
   }
 
   void refresh() {
-    json = {
-      'id': 0,
-      'firstName': _firtNameController.text,
-      'lastName': _lastNameController.text,
-      'gender': _genderController,
-      'phone': _phoneController.text,
-      'adresse': _addresseController.text,
-      'mail': _mailController.text,
-      'birthday': _birthdayController.text,
-      'citation': _citationController.text,
-      'photo': path
-    };
-    user = User.fromJson(json);
+    setState(() {
+      json = {
+        'id': "0i",
+        'firstname': _firtNameController.text,
+        'lastname': _lastNameController.text,
+        'adress': _addresseController.text,
+        'phone': _phoneController.text,
+        'gender': _genderController.text,
+        'citation': _citationController.text,
+        'picture': path
+      };
+      user = User.fromJson(json);
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    refresh();
   }
 
   @override
@@ -298,7 +297,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   height: 30,
                 ),
                 Text(
-                  "Ajouter un nouveau contact",
+                  titre,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -335,18 +334,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ],
                             shape: BoxShape.circle,
                           ),
-                          child: path == "null"
+                          child: path == "nulls"
                               ? Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.white,
-                          )
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.white,
+                                )
                               : ClipOval(
-                            child: Image.file(
-                              File(path),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                                  child: Image.file(
+                                    File(path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         ),
                       ),
                       Positioned(
@@ -384,48 +383,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           _firtNameController, TextInputType.name),
                       buildTextField("Last Name", "Pénom", false,
                           _lastNameController, TextInputType.name),
-                      Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Genre',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.indigo),
-                            ),
-                            DropdownButton<String>(
-                              isExpanded: true,
-                              value: _genderController,
-                              hint: Text(
-                                'Sélectionner votre genre',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _genderController = newValue!;
-                                });
-                              },
-                              items: <String>['Masculin', 'Féminin', 'Autre']
-                                  .map((String values) {
-                                return new DropdownMenuItem<String>(
-                                  value: values,
-                                  child: new Text(values),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
+                      buildTextField("Genre", "Sélectionnez votre genre", false,
+                          _genderController, TextInputType.text),
                       buildTextField("Phone", "Téléphone", false,
                           _phoneController, TextInputType.phone),
                       buildTextField("Adresse", "Résidence", false,
-                          _addresseController, TextInputType.name),
-                      buildTextField("Mail", "example@gmail.com", false,
-                          _mailController, TextInputType.emailAddress),
-                      buildTextField("Birthday", "Naissance", false,
-                          _birthdayController, TextInputType.datetime),
+                          _addresseController, TextInputType.text),
                       buildTextField("Citation", "...", false,
                           _citationController, TextInputType.text,
                           minLines: 7,
@@ -442,27 +405,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    _addUser();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyHomePage(title: 'Contacts')));
-                    Fluttertoast.showToast(
-                        msg: "Enrégistrement Réussi",
-                        toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.BOTTOM);
-                  },
-                  child: Text("Enrégistrer",
-                      style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.indigo,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 90, vertical: 12),
-                      textStyle: const TextStyle(
-                          fontSize: 20,
+                    if (_formKey.currentState!.validate()) {
+                      _addUser();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyHomePage(title: 'Contacts')));
+                      Fluttertoast.showToast(
+                          msg: "Enrégistrement Réussi",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM);
+                    }
+                    },
+                    child: Text("Enrégistrer",
+                    style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                    primary: Colors.indigo,
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                    padding: const EdgeInsets.symmetric(
+                    horizontal: 90, vertical: 12),
+                    textStyle: const TextStyle(
+                    fontSize:20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white)),
                 ),
@@ -491,11 +456,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
         decoration: InputDecoration(
           suffixIcon: isPasswordTextField
               ? IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.remove_red_eye,
-                color: Colors.grey,
-              ))
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  ))
               : null,
           contentPadding: EdgeInsets.all(15),
           labelText: labelText,
@@ -525,7 +490,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key, required this.id}) : super(key: key);
-  final int id;
+  final String id;
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
@@ -535,11 +500,9 @@ class _DetailPageState extends State<DetailPage> {
   bool isObscurePassword = true;
   var _firtNameController = TextEditingController();
   var _lastNameController = TextEditingController();
-  String _genderController = "Masculin";
+  var _genderController = TextEditingController();
   var _phoneController = TextEditingController();
   var _addresseController = TextEditingController();
-  var _mailController = TextEditingController();
-  var _birthdayController = TextEditingController();
   var _citationController = TextEditingController();
 
   User user = User();
@@ -567,11 +530,9 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       _firtNameController.text = user.getFirstName();
       _lastNameController.text = user.getLastName();
-      _genderController = user.getGender();
+      _genderController.text = user.getGender();
       _phoneController.text = user.getPhone();
       _addresseController.text = user.getAdresse();
-      _mailController.text = user.getMail();
-      _birthdayController.text = user.getBirthday();
       _citationController.text = user.getCitation();
       path = user.getPhoto();
     });
@@ -580,15 +541,13 @@ class _DetailPageState extends State<DetailPage> {
   void _updateUser() async {
     json = {
       'id': user.getId(),
-      'firstName': _firtNameController.text,
-      'lastName': _lastNameController.text,
-      'gender': _genderController,
+      'firstname': _firtNameController.text,
+      'lastname': _lastNameController.text,
+      'gender': _genderController.text,
       'phone': _phoneController.text,
-      'adresse': _addresseController.text,
-      'mail': _mailController.text,
-      'birthday': _birthdayController.text,
+      'adress': _addresseController.text,
       'citation': _citationController.text,
-      'photo': path,
+      'picture': path,
     };
     user = await SQLHelper.updateUser(User.fromJson(json));
     _refresh();
@@ -607,15 +566,34 @@ class _DetailPageState extends State<DetailPage> {
         builder: (context) {
           return AlertDialog(
             title: TextButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context, "Cancel");
               },
-              child: Icon(Icons.close,color: Colors.indigo,size: 30,),
+              child: Icon(
+                Icons.close,
+                color: Colors.indigo,
+                size: 30,
+              ),
             ),
-
             actions: [
-
-              _isOK==true ?
+              _isOK == true
+                  ? TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.indigo,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context, "Cancel");
+                        setState(() {});
+                      },
+                      child: const Text("OK"))
+                  : SizedBox(
+                      width: 0,
+                    ),
               TextButton(
                   style: TextButton.styleFrom(
                     primary: Colors.white,
@@ -626,49 +604,27 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context, "Cancel");
-                    setState(() {
-
-                    });
-                  },
-                  child: const Text("OK")) : SizedBox(width: 0,),
-
-              TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: Colors.indigo,
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                  ),
-                  onPressed: () {
-
                     setState(() {
                       pickImage();
-                      _isOK=true;
+                      _isOK = true;
                     });
                     Future.delayed(const Duration(seconds: 5), () {
-                      setState(() {
-
-                      });
+                      setState(() {});
                     });
                     Navigator.pop(context, "Ok");
                   },
-
                   child: const Text("Modifier")),
             ],
             content: path == "null"
                 ? Icon(
-              Icons.person,
-              size: 100,
-              color: Colors.white,
-            )
+                    Icons.person,
+                    size: 100,
+                    color: Colors.white,
+                  )
                 : Image.file(
-              File(path),
-              fit: BoxFit.cover,
-            ),
-
+                    File(path),
+                    fit: BoxFit.cover,
+                  ),
           );
         });
   }
@@ -682,7 +638,7 @@ class _DetailPageState extends State<DetailPage> {
           MaterialPageRoute(
               builder: (context) => MyHomePage(title: 'Contacts')));
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Successfully deleted a journal!'),
+        content: Text('Contact supprimé avec succès!'),
       ));
     }
 
@@ -742,16 +698,16 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           child: path == "null"
                               ? Icon(
-                            Icons.person,
-                            size: 100,
-                            color: Colors.white,
-                          )
+                                  Icons.person,
+                                  size: 100,
+                                  color: Colors.white,
+                                )
                               : ClipOval(
-                            child: Image.file(
-                              File(path),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                                  child: Image.file(
+                                    File(path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -779,7 +735,10 @@ class _DetailPageState extends State<DetailPage> {
                 height: 20,
               ),
               Center(
-                child: Text("Profil", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                child: Text(
+                  "Profil",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ),
               SizedBox(
                 height: 30,
@@ -788,55 +747,12 @@ class _DetailPageState extends State<DetailPage> {
                   _firtNameController),
               buildTextField("Last Name", "Ecrivez votre prénom ici ...", false,
                   _lastNameController),
-              Padding(
-                padding:
-                EdgeInsets.only(top: 0, left: 12, right: 12, bottom: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Genre',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.indigo),
-                    ),
-                    DropdownButton<String>(
-                      underline: widget,
-                      isExpanded: true,
-                      value: _genderController,
-                      hint: Text(
-                        'Sélectionner votre genre',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _genderController = newValue!;
-                        });
-                      },
-                      items: <String>['Masculin', 'Féminin', 'Autre']
-                          .map((String values) {
-                        return new DropdownMenuItem<String>(
-                          value: values,
-                          child: new Text(values),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              buildTextField("Genre", "Sélectionnez votre genre ...", false,
+                  _genderController),
               buildTextField("Phone", "Ecrivez votre contact ici ...", false,
                   _phoneController),
               buildTextField("Adress", "Ecrivez votre addresse ici ...", false,
                   _addresseController),
-              buildTextField(
-                  "Mail", "example@gmail.com", false, _mailController),
-              buildTextField(
-                  "Bithday",
-                  "Ecrivez votre date de naissance ici ...",
-                  false,
-                  _birthdayController),
               buildTextField("Citation", "Les montagnes, la mer, ...", false,
                   _citationController,
                   minLines: 3, maxLines: 50, textAlign: TextAlign.justify),
@@ -905,11 +821,11 @@ class _DetailPageState extends State<DetailPage> {
         decoration: InputDecoration(
           suffixIcon: isPasswordTextField
               ? IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.remove_red_eye,
-                color: Colors.grey,
-              ))
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  ))
               : null,
           contentPadding: EdgeInsets.all(15),
           disabledBorder: UnderlineInputBorder(),

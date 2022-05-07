@@ -1,15 +1,14 @@
 
 class User {
-  int _id = 0;
+  String _id = "";
   String _firstName = "";
   String _lastName = "";
   String _gender = "";
   String _phone = "";
   String _adresse = "";
-  String _mail = "";
-  String _birthday = "";
   String _citation = "";
   String _photo = "user0.png";
+
 
   User() {
     this._id;
@@ -18,21 +17,17 @@ class User {
     this._gender;
     this._phone;
     this._adresse;
-    this._mail;
-    this._birthday;
     this._citation;
     this._photo;
   }
 
   UserWithParameter(
-      int id,
+      String id,
       String firstName,
       String lastName,
       String gender,
       String phone,
       String adresse,
-      String mail,
-      String birthday,
       String citation,
       String photo
       ) {
@@ -42,9 +37,7 @@ class User {
     this._gender = gender;
     this._phone = phone;
     this._adresse = adresse;
-    this._mail = adresse;
-    this._birthday = mail;
-    this._citation = birthday;
+    this._citation = citation;
     this._photo = photo;
   }
 
@@ -54,8 +47,6 @@ class User {
     this._gender = user.getGender();
     this._phone = user.getPhone();
     this._adresse = user.getAdresse();
-    this._mail = user.getMail();
-    this._birthday = user.getBirthday();
     this._citation = user.getCitation();
     this._photo = user.getPhoto();
 
@@ -64,33 +55,29 @@ class User {
 
   User.fromJson(Map<String, dynamic> json)
       : _id = json['id'],
-        _firstName = json['firstName'],
-        _lastName = json['lastName'],
+        _firstName = json['firstname'],
+        _lastName = json['lastname'],
         _gender = json['gender'],
         _phone = json['phone'],
-        _adresse = json['adresse'],
-        _mail = json['mail'],
-        _birthday = json['birthday'],
+        _adresse = json['adress'],
         _citation = json['citation'],
-        _photo = json['photo'];
+        _photo = json['picture'];
 
   Map<String, dynamic> toJson() => {
-        'firstName': _firstName,
-        'lastName': _lastName,
-        'gender': _gender,
+        'firstname': _firstName,
+        'lastname': _lastName,
+        'adress': _adresse,
         'phone': _phone,
-        'adresse': _adresse,
-        'mail': _mail,
-        'birthday': _birthday,
+        'gender': _gender,
+        'picture': _photo,
         'citation': _citation,
-        'photo': _photo,
       };
 
-  int getId() {
+  String getId() {
     return this._id;
   }
 
-  void setId(int id) {
+  void setId(String id) {
     this._id = id;
   }
 
@@ -132,22 +119,6 @@ class User {
 
   void setAdresse(String word) {
     this._adresse = word;
-  }
-
-  String getMail() {
-    return this._mail;
-  }
-
-  void setMail(String word) {
-    this._mail = word;
-  }
-
-  String getBirthday() {
-    return this._birthday;
-  }
-
-  void setBirthday(String word) {
-    this._birthday = word;
   }
 
   String getCitation() {
